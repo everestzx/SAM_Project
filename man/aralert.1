@@ -1,0 +1,81 @@
+.TH ARALERT 1 "November 2026" "ARALert" "User Commands"
+.SH NAME
+aralert \- administrative scripts for installing and operating ARALert
+.SH SYNOPSIS
+.B sudo scripts/aralert-install.sh
+.RI [ SOURCE_DIR ]
+.PP
+.B sudo scripts/aralert-maintenance.sh
+.RB { \-\-on | \-\-off | \-\-status }
+.PP
+.B sudo scripts/aralert-pause.sh
+.RB { \-\-pause | \-\-resume | \-\-status }
+.PP
+.B sudo scripts/aralert-start-stop.sh
+.RB { \-\-start | \-\-stop | \-\-restart }
+.PP
+.B sudo scripts/aralert-status.sh
+.RI [ \-\-save
+.IR FILE ]
+.PP
+.B sudo scripts/aralert-update.sh
+.I UPDATE_DIR
+.PP
+.B sudo scripts/aralert-update.sh
+.B \-\-simulate-broken
+.SH DESCRIPTION
+The ARALert scripts install and administer the ARALert application on Ubuntu or WSL.
+All scripts accept
+.B \-\-help
+and must be run with root privileges.
+.TP
+.B aralert-install.sh
+Creates the protected configuration file, installs dependencies, copies the source tree,
+configures PostgreSQL, Gunicorn, systemd, and Nginx, and verifies application health.
+.TP
+.B aralert-maintenance.sh
+Turns maintenance mode on or off, or reports its status.
+.TP
+.B aralert-pause.sh
+Suspends or resumes ARALert processes with POSIX stop and continue signals.
+.TP
+.B aralert-start-stop.sh
+Starts, stops, or restarts PostgreSQL, ARALert, and Nginx in service-safe order.
+.TP
+.B aralert-status.sh
+Reports service state, listening ports, process usage, system resources, and backend health.
+Use
+.B \-\-save FILE
+to save and display the report.
+.TP
+.B aralert-update.sh
+Backs up the database and application, applies an update directory, restarts the service,
+and verifies backend health.
+.B \-\-simulate-broken
+creates a controlled failed-update demonstration and does not require an update directory.
+.SH FILES
+.TP
+.I /etc/aralert/aralert.conf
+Root-only installation configuration and generated database and secret values.
+.TP
+.I /opt/aralert
+Installed application directory.
+.TP
+.I /var/backups/aralert
+Database dumps and pre-update archives.
+.SH EXIT STATUS
+Scripts return zero on success. Nonzero values indicate usage errors, privilege errors,
+missing configuration or dependencies, or failed service operations.
+.SH EXAMPLES
+.EX
+sudo scripts/aralert-install.sh ..
+sudo scripts/aralert-status.sh
+sudo scripts/aralert-maintenance.sh --on
+sudo scripts/aralert-maintenance.sh --off
+sudo scripts/aralert-update.sh /tmp/aralert-update
+.EE
+.SH SEE ALSO
+.BR systemctl (1),
+.BR nginx (8),
+.BR gunicorn (1),
+.BR psql (1)
