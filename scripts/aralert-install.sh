@@ -67,7 +67,6 @@ chmod 600 "$CONF_FILE"
 
 echo "=== Installing $APP_NAME ==="
 
-# 1. Install required Ubuntu packages only if missing
 echo "[1/6] Checking required packages..."
 PKGS="postgresql python3 python3-venv libpq-dev nginx curl tar openssl procps iproute2 rsync"
 UPDATED=0
@@ -80,7 +79,6 @@ for P in $PKGS; do
     fi
 done
 
-# 2. Create service account and set up PostgreSQL
 echo "[2/6] Setting up user $APP_USER and PostgreSQL ($DB_NAME)..."
 if ! grep -q "^$APP_USER:" /etc/passwd; then
     useradd -r -m -d "$APP_DIR" -s /usr/sbin/nologin "$APP_USER"
@@ -98,7 +96,6 @@ if ! su - postgres -c "psql -tc \"SELECT 1 FROM pg_database WHERE datname='$DB_N
 fi
 su - postgres -c "psql -d $DB_NAME -c \"GRANT ALL ON SCHEMA public TO $DB_USER;\"" >/dev/null
 
-# 3. Copy application files to /opt/aralert and write .env
 echo "[3/6] Copying application files to $APP_DIR..."
 rsync -a --delete --exclude='.git' --exclude='backend/venv' --exclude='backend/.venv' \
     --exclude='frontend/node_modules' --exclude='frontend/node_modules_old' \
@@ -119,7 +116,6 @@ CSRF_TRUSTED_ORIGINS=http://localhost,http://127.0.0.1
 EOF
 echo "<!DOCTYPE html><html><body><h1>Service Temporarily Unavailable</h1><p>ARALert is under maintenance.</p></body></html>" > "$MAINT_PAGE"
 
-# 4. Set up Python venv and run migrations + seed
 echo "[4/6] Setting up Python backend and running migrations..."
 if [ ! -f "$VENV_DIR/bin/gunicorn" ]; then
     python3 -m venv "$VENV_DIR"
@@ -129,7 +125,6 @@ cd "$APP_DIR/backend"
 "$VENV_DIR/bin/python" manage.py migrate --noinput && "$VENV_DIR/bin/python" seed_superadmin.py || { echo "Error: Migration failed."; exit 1; }
 "$VENV_DIR/bin/python" manage.py collectstatic --noinput >/dev/null 2>&1
 
-# 5. Apply permissions and configure systemd + Nginx
 echo "[5/6] Setting permissions and starting services..."
 chown -R "$APP_USER:$APP_GROUP" "$APP_DIR" "$LOG_DIR" /run/aralert
 find "$APP_DIR" -type d -exec chmod 750 {} \;
@@ -176,7 +171,6 @@ rm -f /etc/nginx/sites-enabled/default
 systemctl daemon-reload && systemctl enable aralert >/dev/null 2>&1
 systemctl restart aralert && systemctl restart nginx
 
-# 6. Verify backend health and frontend HTTP 200
 echo "[6/6] Verifying $APP_NAME..."
 TRIES=0
 HEALTH_OK=0
