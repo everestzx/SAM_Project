@@ -1,0 +1,19 @@
+sudo bash aralert-pause.sh pause
+
+Suspending ARALert processes with kill -STOP...
+    PID STAT COMMAND
+   4078 Tsl  gunicorn
+   4103 T    gunicorn
+   4104 T    gunicorn
+   4105 T    gunicorn
+SUCCESS: ARALert processes are now PAUSED (state T).
+
+sudo bash aralert-pause.sh resume
+
+Resuming ARALert processes with kill -CONT...
+    PID STAT COMMAND
+   4078 Ssl  gunicorn
+   4103 S    gunicorn
+   4104 S    gunicorn
+   4105 S    gunicorn
+SUCCESS: ARALert processes are now RESUMED.

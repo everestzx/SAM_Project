@@ -1,0 +1,21 @@
+=== Installing ARALert ===
+[1/6] Checking required packages...
+[2/6] Setting up user aralert and PostgreSQL (aralert)...
+[3/6] Copying application files to /opt/aralert...
+[4/6] Setting up Python backend and running migrations...
+/opt/aralert/backend/venv/lib/python3.12/site-packages/django/db/backends/utils.py:98: RuntimeWarning: Accessing the database during app initialization is discouraged. To fix this warning, avoid executing queries in AppConfig.ready() or when your app modules are imported.
+  warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)
+Operations to perform:
+  Apply all migrations: academics, accounts, admin, auth, contenttypes, sessions, token_blacklist
+Running migrations:
+  No migrations to apply.
+/opt/aralert/backend/venv/lib/python3.12/site-packages/django/db/backends/utils.py:98: RuntimeWarning: Accessing the database during app initialization is discouraged. To fix this warning, avoid executing queries in AppConfig.ready() or when your app modules are imported.
+  warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)
+SuperAdmin account permissions and details updated.
+SuperAdmin account permissions and details updated.
+SuperAdmin account permissions and details updated.
+Unmanaged api_* tables already exist in PostgreSQL.
+SuperAdmin seeding completed successfully without modifying other accounts.
+[5/6] Setting permissions and starting services...
+[6/6] Verifying ARALert...
+SUCCESS: ARALert is installed and responding (HTTP 200).

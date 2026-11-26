@@ -1,0 +1,52 @@
+=== ARALert Status Report (Fri Nov 27 00:46:40 PST 2026) ===
+
+1. SERVICE STATE
+  postgresql: RUNNING
+  aralert: RUNNING
+  nginx: RUNNING
+  Maintenance Mode: OFF (Live)
+
+2. LISTENING PORTS (80, 8000, 5432)
+tcp   LISTEN 0      200         127.0.0.1:5432      0.0.0.0:*    users:(("postgres",pid=283,fd=6))                      
+tcp   LISTEN 0      2048        127.0.0.1:8000      0.0.0.0:*    users:(("gunicorn",pid=4105,fd=3),("gunicorn",pid=4104,fd=3),("gunicorn",pid=4103,fd=3),("gunicorn",pid=4078,fd=3))
+tcp   LISTEN 0      511           0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=4099,fd=5),("nginx",pid=4098,fd=5),("nginx",pid=4097,fd=5),("nginx",pid=4096,fd=5),("nginx",pid=4095,fd=5),("nginx",pid=4094,fd=5),("nginx",pid=4093,fd=5),("nginx",pid=4092,fd=5),("nginx",pid=4090,fd=5),("nginx",pid=4089,fd=5),("nginx",pid=4088,fd=5),("nginx",pid=4087,fd=5),("nginx",pid=4086,fd=5))
+
+3. PROCESS CPU AND MEMORY USAGE
+    PID STAT %CPU %MEM COMMAND
+    283 Ss    0.0  0.3 postgres
+    290 Ss    0.0  0.0 postgres
+    291 Ss    0.0  0.0 postgres
+    293 Ss    0.0  0.1 postgres
+    294 Ss    0.0  0.1 postgres
+    295 Ss    0.0  0.1 postgres
+   4078 Ssl   0.1  0.3 gunicorn
+   4086 Ss    0.0  0.0 nginx
+   4087 S     0.0  0.0 nginx
+   4088 S     0.0  0.0 nginx
+   4089 S     0.0  0.0 nginx
+   4090 S     0.0  0.0 nginx
+   4092 S     0.0  0.0 nginx
+   4093 S     0.0  0.0 nginx
+   4094 S     0.0  0.0 nginx
+   4095 S     0.0  0.0 nginx
+   4096 S     0.0  0.0 nginx
+   4097 S     0.0  0.0 nginx
+   4098 S     0.0  0.0 nginx
+   4099 S     0.0  0.0 nginx
+   4103 S     0.5  0.7 gunicorn
+   4104 S     0.5  0.7 gunicorn
+   4105 S     0.6  0.8 gunicorn
+   4107 Ss    0.0  0.2 postgres
+   4108 Ss    0.0  0.2 postgres
+
+4. SYSTEM RESOURCES (top, free, df)
+top - 00:46:41 up 12 min,  1 user,  load average: 0.11, 0.12, 0.04
+%Cpu(s):  0.0 us,  0.8 sy,  0.0 ni, 99.2 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+               total        used        free      shared  buff/cache   available
+Mem:           7.6Gi       740Mi       5.6Gi        19Mi       1.5Gi       6.9Gi
+Swap:          2.0Gi          0B       2.0Gi
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdd       1007G  3.6G  953G   1% /
+
+5. HEALTH CHECK
+  http://127.0.0.1:8000/api/health/: HEALTHY

@@ -1,0 +1,13 @@
+sudo bash aralert-maintenance.sh on
+
+Enabling maintenance mode...
+SUCCESS: Maintenance mode is ON (HTTP 503 - Temporarily Unavailable).
+
+curl --max-time 3 http://localhost/api/health/
+<!DOCTYPE html><html><body style='font-family:sans-serif;text-align:center;padding:10%;'><h1>Service Temporarily Unavailable</h1><p>ARALert is undergoing scheduled maintenance. Please try again shortly.</p></body></html>
+
+sudo bash aralert-maintenance.sh off
+Disabling maintenance mode...
+SUCCESS: Maintenance mode is OFF (HTTP 200 - Live).
+curl --max-time 3 http://localhost/api/health/
+{"status":"healthy","database":"connected","server_time":"2026-11-26T16:54:43.114066+00:00"}
